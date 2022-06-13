@@ -1,6 +1,6 @@
 
 import { useId, useState } from 'react';
-import './App.css';
+import './index.css';
 
 function App() {
 
@@ -9,7 +9,7 @@ function App() {
     {
       id: useId(),
       question: `You're really busy at work and a colleague is telling you their life story and personal woes. You:`,
-      answer: [
+      answers: [
         {id:useId(), title: `Don't dare to interrupt them`, score: 4},
 
         {
@@ -33,7 +33,7 @@ function App() {
     {
       id: useId(),
       question: `You're having an animated discussion with a colleague regarding a project that you're in charge of. You:`,
-      answer: [
+      answers: [
         {id:useId(), title: `Don't dare contradict them`, score: 4},
 
         {
@@ -57,7 +57,7 @@ function App() {
     {
       id: useId(),
       question: `You've been sitting in the doctors waiting room for more than 25minutes. You:`,
-      answer: [
+      answers: [
         {id:useId(), title: `Look at yopur watch every two minutes`, score: 4},
 
         {
@@ -79,7 +79,7 @@ function App() {
     }
   ])
 
-  const [currentQuestionIndex, setCuurentQuestionIndex] = useState(0)
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
 
   const selectAnswerHandler = (questionId, answer) => {
     const newQuestionnaire = questionnaire.map((question) => {
@@ -87,16 +87,15 @@ function App() {
         question.selectedAnswer = answer
       }
 return question
-    }
-    )
+    })
     setQuestionnaire(newQuestionnaire)
   }
   const nextQuestionHandler = () => {
-    setCuurentQuestionIndex(currentQuestionIndex + 1)
+    setCurrentQuestionIndex(currentQuestionIndex + 1)
   }
 
   const previousQuestionHandler = () => {
-    setCuurentQuestionIndex(currentQuestionIndex - 1)
+    setCurrentQuestionIndex(currentQuestionIndex - 1)
   }
 
   const submitHandler = () => {
