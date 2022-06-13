@@ -78,11 +78,96 @@ function App() {
       ]
     }
   ])
+
+  const [currentQuestionIndex, setCuurentQuestionIndex] = useState(0)
+
+  const selectAnswerHandler = (questionId, answer) => {
+    const newQuestionnaire = questionnaire.map((question) => {
+      if (question.id === questionId) {
+        question.selectedAnswer = answer
+      }
+return question
+    }
+    )
+    setQuestionnaire(newQuestionnaire)
+  }
+  const nextQuestionHandler = () => {
+    setCuurentQuestionIndex(currentQuestionIndex + 1)
+  }
+
+  const previousQuestionHandler = () => {
+    setCuurentQuestionIndex(currentQuestionIndex - 1)
+  }
+
+  const submitHandler = () => {
+    const totalScores = questionnaire.reduce(
+      (a, c) => a + c.selectedAnswer.score,
+      0
+    )
+
+    if (totalScores <= 6) {
+      alert(`You are a bloody Introvert`)
+    } else {
+      alert(`You are highly extroverted`)
+    }
+
+    window.location.reload()
+  }
+
   return (
-    <div className="App">
-      
+    <div className="main">
+      <h1>
+        Questions {currentQuestionIndex + 1}/{questionnaire.length}
+      </h1>
+
+      {questionnaire.map((question, index) => (
+        <div
+          className={
+            index === currentQuestionIndex
+              ? "show question_div"
+              : "hide question_div"
+          }
+          key={question.id}
+        >
+          <h1>{question.question}</h1>
+
+          <ul className="answers-ctn">
+            {question.answers.map((answer, i) => (
+              <li
+                className={
+                  question?.selectedAnswer?.id === answer.id ? "selected" : ""
+                }
+                key={i}
+                onClick={() => selectAnswerHandler(question.id, answer)}
+              >
+                {answer.title}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+      <div className="buttons_div">
+        {currentQuestionIndex !== 0 && (
+          <button onClick={previousQuestionHandler}>Previous</button>
+        )}
+        {currentQuestionIndex + 1 !== questionnaire.length ? (
+          <>
+            {questionnaire[currentQuestionIndex].selectedAnswer && (
+              <button onClick={nextQuestionHandler}>Next</button>
+            )}
+          </>
+        ) : (
+          <>
+            {questionnaire[currentQuestionIndex].selectedAnswer && (
+              <button onClick={submitHandler}>Submit</button>
+            )}
+          </>
+        )}
+      </div>
     </div>
-  );
+  )
 }
+
 
 export default App;
